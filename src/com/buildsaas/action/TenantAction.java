@@ -1,6 +1,7 @@
 package com.buildsaas.action;
 
 import java.util.HashMap;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -15,6 +16,9 @@ public class TenantAction extends ActionSupport {
 	private String username;
 	private String password;
 
+	private String page;
+	private String rows;
+
 	public TenantService getTenantService() {
 		return tenantService;
 	}
@@ -23,13 +27,13 @@ public class TenantAction extends ActionSupport {
 		this.tenantService = tenantService;
 	}
 
-	private HashMap<String, String> hashMap;
+	private HashMap<String, Object> hashMap;
 
-	public HashMap<String, String> getHashMap() {
+	public HashMap<String, Object> getHashMap() {
 		return hashMap;
 	}
 
-	public void setHashMap(HashMap<String, String> hashMap) {
+	public void setHashMap(HashMap<String, Object> hashMap) {
 		this.hashMap = hashMap;
 	}
 
@@ -45,7 +49,7 @@ public class TenantAction extends ActionSupport {
 
 	public TenantAction() {
 		// TODO Auto-generated constructor stub
-		hashMap = new HashMap<String, String>();
+		hashMap = new HashMap<String, Object>();
 	}
 
 	public String register() {
@@ -75,6 +79,21 @@ public class TenantAction extends ActionSupport {
 		return "isRegSuccess";
 	}
 
+	public String listAll() {
+
+		int intPage = Integer.parseInt((page == null || page == "0") ? "1"
+				: page);
+
+		int number = Integer.parseInt((rows == null || rows == "0") ? "10"
+				: rows);
+
+		int start = (intPage - 1) * number;
+		List<Tenant> list = tenantService.listAll(intPage, number);
+		hashMap.put("rows", list);
+		//hashMap.put("total", list.size());
+		return "listAllSuccess";
+	}
+
 	public String getUsername() {
 		return username;
 	}
@@ -89,5 +108,21 @@ public class TenantAction extends ActionSupport {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getPage() {
+		return page;
+	}
+
+	public void setPage(String page) {
+		this.page = page;
+	}
+
+	public String getRows() {
+		return rows;
+	}
+
+	public void setRows(String rows) {
+		this.rows = rows;
 	}
 }

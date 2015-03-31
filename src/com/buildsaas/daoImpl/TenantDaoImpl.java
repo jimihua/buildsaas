@@ -1,5 +1,7 @@
 package com.buildsaas.daoImpl;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -51,7 +53,17 @@ public class TenantDaoImpl extends BaseDaoImpl<Tenant> implements TenantDao {
 				.getSession()
 				.createQuery(
 						"from " + this.getSimpleName()
-								+ " where tenant_username='" + username+"'").list()
-				.size() == 0 ? false : true;
+								+ " where tenant_username='" + username + "'")
+				.list().size() == 0 ? false : true;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Tenant> listAll(int page, int number) {
+		// TODO Auto-generated method stub
+		return this.getSession().createQuery(" from "+this.getSimpleName())
+				.setFirstResult((page - 1) * number).setMaxResults(number)
+				.list();
+
 	}
 }

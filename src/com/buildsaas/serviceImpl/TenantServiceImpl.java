@@ -1,5 +1,7 @@
 package com.buildsaas.serviceImpl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -26,11 +28,10 @@ public class TenantServiceImpl implements TenantService {
 	@Override
 	public String register(Tenant tenant) {
 		if (this.tenantDao.isReged(tenant.getTenantUsername())) {
-			
-			return "is reged";	
+
+			return "is reged";
 		}
 		return this.tenantDao.register(tenant);
-		
 
 	}
 
@@ -74,6 +75,12 @@ public class TenantServiceImpl implements TenantService {
 			return SUCCESS;
 		}
 
+	}
+
+	@Override
+	public List<Tenant> listAll(int page, int number) {
+		// TODO Auto-generated method stub
+		return this.tenantDao.listAll(page, number);
 	}
 
 }

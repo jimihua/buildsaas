@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>manage.html</title>
+
+<link href="/buildsaas/tenant/css/default.css" rel="stylesheet"
+	type="text/css" />
+<link rel="stylesheet" type="text/css"
+	href="/buildsaas/tenant/js/themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css"
+	href="/buildsaas/tenant/js/themes/icon.css" />
+<script type="text/javascript"
+	src="/buildsaas/tenant/js/jquery-1.4.2.min.js"></script>
+<script type="text/javascript"
+	src="/buildsaas/tenant/js/jquery.easyui.js"></script>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+
+		$('#tt').datagrid({
+			width : 1000,
+			height : 500,
+			resizable : true,
+			url : '/buildsaas/tenant_listAll',
+			striped : true,
+			loadMsg : "正在载入",
+			pagination : true,
+			rownumbers : true,
+			singleSelect : true,
+			pageNumber : 1,
+			pageSize : 1,
+			pageList : [ 10, 20, 30, 40, 50 ],
+			showFooter : true,
+			columns : [ [ {
+				field : 'tenantCompany',
+				title : '公司名称',
+				width : 100
+			}, {
+				field : 'tenantRealname',
+				title : '真实姓名',
+				width : 100
+			}, {
+				field : 'tenantEmail',
+				title : '邮箱',
+				width : 100,
+				align : 'right'
+			}, {
+				field : 'tenantStatus',
+				title : '状态',
+				width : 100,
+				align : 'right'
+			}, {
+				field : 'tenantMobile',
+				title : '手机号码',
+				width : 100,
+				align : 'right'
+			}, {
+				field : '_operate',
+				title : '操作',
+				width : 100,
+				align : 'center',
+				formatter : formatOper
+			} ] ]
+		});
+
+	});
+	function formatOper(val, row, index) {
+		return '<a href="#" onclick="editUser(' + index + ')">修改</a>';
+	}
+
+	function editUser() {
+		
+		var row = $('#tt').datagrid('getSelected');
+		if (row) {
+			$('#checktenant').dialog('open').dialog('setTitle', '编辑用户');
+			$('#tenantform').form('load', row);
+			
+		}
+	}
+</script>
+
+</head>
+
+<body>
+	<table id="tt"></table>
+	<div id="checktenant" class="easyui-dialog"
+		style="width:320px;height:380px;padding:10px 20px" closed="true"
+		buttons="#edituser-buttons">
+		<div class="ftitle">用户基本信息:</div>
+		<br />
+		<form id="tenantform" method="post">
+			<span >公司名称</span>
+			<input name="tenantCompany"></input>
+		</form>
+		
+		<div id="edituser-buttons">
+			<a href="#" class="easyui-linkbutton" iconCls="icon-ok"
+				onclick="javascript:$('#checktenant').dialog('close')">保存</a> <a href="#"
+				class="easyui-linkbutton" iconCls="icon-cancel"
+				onclick="javascript:$('#checktenant').dialog('close')">取消</a>
+		</div>
+	</div>
+</body>
+</html>

@@ -16,6 +16,9 @@
 			<result name="isRegSuccess" type="json">
 				<param name="root">hashMap</param>
 			</result>
+			<result name="listAllSuccess" type="json">
+				<param name="root">hashMap</param>
+			</result>
 		</action>
 	</package>
 </struts>
